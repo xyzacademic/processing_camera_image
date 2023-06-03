@@ -15,6 +15,7 @@ typedef ConvertImageYuv420pToRGBC = Pointer<Uint32> Function(
   Int32,
   Int32,
   Int32,
+  Int32,
   Double,
   Uint32,
   Bool,
@@ -24,6 +25,7 @@ typedef ConvertImageYuv420pToRGBFlutter = Pointer<Uint32> Function(
   Pointer<Uint8>,
   Pointer<Uint8>,
   Pointer<Uint8>,
+  int,
   int,
   int,
   int,
@@ -54,6 +56,6 @@ typedef ConvertImageYuv420pToGray8BitFlutter = Pointer<Uint8> Function(
   native convert camera image YUV420sp( or NV12) to rgb
 */
 typedef ConvertImageNV12ToRGBC = Pointer<Uint32> Function(Pointer<Uint8>,
-    Pointer<Uint8>, Int32, Int32, Int32, Int32, Double, Uint32, Bool, Bool);
+    Pointer<Uint8>, Int32, Int32, Int32, Int32, Int32, Double, Uint32, Bool, Bool);
 typedef ConvertImageNV12ToRGBFlutter = Pointer<Uint32> Function(Pointer<Uint8>,
-    Pointer<Uint8>, int, int, int, int, double, int, bool, bool);
+    Pointer<Uint8>, int, int, int, int, int, double, int, bool, bool);

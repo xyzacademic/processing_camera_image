@@ -224,9 +224,16 @@ uint8_t *convert_image_yuv420p_to_gray_8bit(uint8_t *plane0, int width, int heig
     }
 }
 
-uint32_t *convert_image_yuv420p_to_rgb(uint8_t *plane0, uint8_t *plane1, uint8_t *plane2, int bytesPerRow, int bytesPerPixel, int width, int height, double angleRotation, uint32_t background_color, bool flip_vertical, bool flip_horizontal)
+uint32_t *convert_image_yuv420p_to_rgb(uint8_t *plane0, uint8_t *plane1, uint8_t *plane2,
+int yRowStride, int bytesPerRow, int bytesPerPixel, int width, int height,
+double angleRotation, uint32_t background_color, bool flip_vertical, bool flip_horizontal)
 {
-    int x, y, uvIndex, index;
+/*
+    final yRowStride = cameraImage.planes[0].bytesPerRow;
+    final uvRowStride = cameraImage.planes[1].bytesPerRow;
+    final uvPixelStride = cameraImage.planes[1].bytesPerPixel!;
+*/
+    int x, y, uvIndex, index, yIndex;
     int yp, up, vp;
     int r, g, b;
     int rt, gt, bt;
@@ -239,8 +246,8 @@ uint32_t *convert_image_yuv420p_to_rgb(uint8_t *plane0, uint8_t *plane1, uint8_t
         {
             uvIndex = bytesPerPixel * ((int)floor(x / 2)) + bytesPerRow * ((int)floor(y / 2));
             index = y * width + x;
-
-            yp = plane0[index];
+            yIndex = y * yRowStride + x;
+            yp = plane0[yIndex];
             up = plane1[uvIndex];
             vp = plane2[uvIndex];
             rt = round(yp + vp * 1436 / 1024 - 179);
@@ -249,7 +256,7 @@ uint32_t *convert_image_yuv420p_to_rgb(uint8_t *plane0, uint8_t *plane1, uint8_t
             r = _clamp(0, 255, rt);
             g = _clamp(0, 255, gt);
             b = _clamp(0, 255, bt);
-            src[x + y * width] = (HEXFF << 24) | (b << 16) | (g << 8) | r;
+            src[index] = (HEXFF << 24) | (b << 16) | (g << 8) | r;
         }
     }
     if (flip_horizontal)
@@ -316,3 +323,4 @@ uint32_t *convert_image_nv12_to_rgb(uint8_t *plane0, uint8_t *plane1, int bytesP
         return _rotaion_image_32bit(src, angleRotation, width, height, background_color);
     }
 }
+
