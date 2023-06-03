@@ -265,9 +265,10 @@ class IProcessingCameraImage implements ProcessingCameraImage {
     Pointer<Uint32> imgP = _convertImageNV12ToRGB(
       p,
       p1,
+      bytesPerRowPlane0,
       bytesPerRowPlane1,
       bytesPerPixelPlan1,
-      bytesPerRowPlane0,
+      width,
       height,
       rotationAngle,
       backGroundColor,
