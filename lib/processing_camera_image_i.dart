@@ -251,8 +251,8 @@ class IProcessingCameraImage implements ProcessingCameraImage {
         (rotationAngle * 3.14159265358979323846264338327950288 / 180.0);
     double sinVal = sin(rad).abs();
     double cosVal = cos(rad).abs();
-    int newImgWidth = (sinVal * height + cosVal * width).toInt();
-    int newImgHeight = (sinVal * width + cosVal * height).toInt();
+    int newImgWidth = (sinVal * height + cosVal * bytesPerRowPlane0).toInt();
+    int newImgHeight = (sinVal * bytesPerRowPlane0 + cosVal * height).toInt();
 
     Pointer<Uint8> p = ffi.malloc.allocate(plane0.length);
     Pointer<Uint8> p1 = ffi.malloc.allocate(plane1.length);
@@ -265,10 +265,9 @@ class IProcessingCameraImage implements ProcessingCameraImage {
     Pointer<Uint32> imgP = _convertImageNV12ToRGB(
       p,
       p1,
-      bytesPerRowPlane0,
       bytesPerRowPlane1,
       bytesPerPixelPlan1,
-      width,
+      bytesPerRowPlane0,
       height,
       rotationAngle,
       backGroundColor,
